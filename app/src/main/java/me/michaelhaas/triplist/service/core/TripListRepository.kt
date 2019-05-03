@@ -1,4 +1,4 @@
-package me.michaelhaas.triplist.service
+package me.michaelhaas.triplist.service.core
 
 import me.michaelhaas.triplist.service.db.TripListDatabaseAdapter
 import me.michaelhaas.triplist.service.http.TripListWebServiceAdapter
