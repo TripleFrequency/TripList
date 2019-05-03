@@ -1,0 +1,10 @@
+package me.michaelhaas.triplist
+
+import android.app.Application
+
+class MyApplication: Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+    }
+}
