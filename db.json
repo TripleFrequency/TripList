@@ -2,53 +2,33 @@
   "trips": [
     {
       "id": 1,
-      "name": "The Grand Canyon",
+      "name": "Grand Canyon National Park",
       "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
     },
     {
       "id": 2,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
+      "name": "Yosemite National Park",
+      "thumbnailUrl": "https://i.imgur.com/kSm3Vs3.jpg"
     },
     {
       "id": 3,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
+      "name": "Yellowstone National Park",
+      "thumbnailUrl": "https://i.imgur.com/vFSHrG1.jpg"
     },
     {
       "id": 4,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
+      "name": "Glacier National Park",
+      "thumbnailUrl": "https://i.imgur.com/Tb7aOp0.jpg"
     },
     {
       "id": 5,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
+      "name": "Zion National Park",
+      "thumbnailUrl": "https://i.imgur.com/WOSLCBA.jpg"
     },
     {
       "id": 6,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
-    },
-    {
-      "id": 7,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
-    },
-    {
-      "id": 8,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
-    },
-    {
-      "id": 9,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
-    },
-    {
-      "id": 10,
-      "name": "The Grand Canyon",
-      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
+      "name": "Rocky Mountain National Park",
+      "thumbnailUrl": "https://i.imgur.com/E9gBeuS.jpg"
     }
   ],
   "details": [
@@ -159,90 +139,6 @@
     },
     {
       "id": 6,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
-      "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
-      ],
-      "activities": [
-        {
-          "name": "Grand Canyon Village",
-          "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
-        },
-        {
-          "name": "Bright Angel Trail",
-          "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
-        }
-      ]
-    },
-    {
-      "id": 7,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
-      "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
-      ],
-      "activities": [
-        {
-          "name": "Grand Canyon Village",
-          "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
-        },
-        {
-          "name": "Bright Angel Trail",
-          "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
-        }
-      ]
-    },
-    {
-      "id": 8,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
-      "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
-      ],
-      "activities": [
-        {
-          "name": "Grand Canyon Village",
-          "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
-        },
-        {
-          "name": "Bright Angel Trail",
-          "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
-        }
-      ]
-    },
-    {
-      "id": 9,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
-      "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
-      ],
-      "activities": [
-        {
-          "name": "Grand Canyon Village",
-          "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
-        },
-        {
-          "name": "Bright Angel Trail",
-          "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
-        }
-      ]
-    },
-    {
-      "id": 10,
       "location": "Arizona",
       "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
       "photoUrls": [

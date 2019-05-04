@@ -1,6 +1,7 @@
 package me.michaelhaas.triplist.ui.adapter
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import me.michaelhaas.triplist.R
@@ -14,7 +15,7 @@ class TripPagerAdapter(private val context: Context, fm: FragmentManager) : Frag
         TAB_POSITION_YOUR_TRIPS -> UserTripsFragment.Builder().build()
         TAB_POSITION_ALL_TRIPS -> AllTripsFragment.Builder().build()
         else -> throw IllegalStateException("Attempt to open non-existent tab at index $position")
-    }
+    } as Fragment
 
     override fun getPageTitle(position: Int): CharSequence? = when (position) {
         TAB_POSITION_YOUR_TRIPS -> context.resources.getString(R.string.label_your_trips)

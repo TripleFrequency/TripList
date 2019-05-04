@@ -9,15 +9,18 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_trips.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.Trip
 import me.michaelhaas.triplist.ui.adapter.TripRecyclerAdapter
 import me.michaelhaas.triplist.ui.vm.AllTripsViewModel
 import javax.inject.Inject
 
-class AllTripsFragment : DaggerFragment() {
+class AllTripsFragment : DaggerFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -43,6 +46,8 @@ class AllTripsFragment : DaggerFragment() {
 
         view_all_trips_button?.visibility = View.GONE
 
+        refresh_trip?.setOnRefreshListener(this)
+
         context?.let {
             user_trip_recycler?.layoutManager = LinearLayoutManager(it, RecyclerView.VERTICAL, false)
             user_trip_recycler?.adapter = tripRecyclerAdapter
@@ -56,6 +61,13 @@ class AllTripsFragment : DaggerFragment() {
                 hideZeroState()
             }
         })
+    }
+
+    override fun onRefresh() {
+        allTripsViewModel.launch {
+            allTripsViewModel.refreshTrips()
+            refresh_trip?.isRefreshing = false
+        }
     }
 
     private fun showZeroState() {

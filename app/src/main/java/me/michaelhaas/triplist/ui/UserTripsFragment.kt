@@ -9,15 +9,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_trips.*
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.UserTrip
 import me.michaelhaas.triplist.ui.adapter.TripRecyclerAdapter
 import me.michaelhaas.triplist.ui.vm.UserTripsViewModel
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class UserTripsFragment : DaggerFragment() {
+class UserTripsFragment : DaggerFragment(), SwipeRefreshLayout.OnRefreshListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -45,6 +49,8 @@ class UserTripsFragment : DaggerFragment() {
         view_all_trips_button?.text = getString(R.string.button_all_trips)
         view_all_trips_button?.setOnClickListener { viewAllClicked() }
 
+        refresh_trip?.setOnRefreshListener(this)
+
         context?.let {
             user_trip_recycler?.layoutManager = LinearLayoutManager(it, RecyclerView.VERTICAL, false)
             user_trip_recycler?.adapter = tripRecyclerAdapter
@@ -58,6 +64,15 @@ class UserTripsFragment : DaggerFragment() {
                 hideZeroState()
             }
         })
+    }
+
+    override fun onRefresh() {
+        userTripsViewModel.launch {
+            // "Your Trips" is entirely reactive, so there isn't a way to "refresh" per-se.
+            // As a result, visual feedback is provided, even though it does nothing.
+            delay(100)
+            refresh_trip?.isRefreshing = false
+        }
     }
 
     private fun showZeroState() {

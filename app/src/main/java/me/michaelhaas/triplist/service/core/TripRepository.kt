@@ -25,6 +25,10 @@ class TripRepository @Inject constructor(
     private val tripMutex = Mutex()
     private var tripCache: List<Trip>? = null
 
+    suspend fun resetMemoryCache() = tripMutex.withLock {
+        tripCache = null
+    }
+
     suspend fun getTrips() = tripMutex.withLock {
         return@withLock tripCache ?: withContext(Dispatchers.IO) {
             val dbTrips = tripDao.getTrips()

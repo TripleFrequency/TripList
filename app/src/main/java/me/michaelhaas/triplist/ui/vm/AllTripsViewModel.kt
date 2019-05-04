@@ -3,26 +3,31 @@ package me.michaelhaas.triplist.ui.vm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import me.michaelhaas.triplist.service.core.TripRepository
 import me.michaelhaas.triplist.service.core.model.Trip
 import javax.inject.Inject
+import kotlin.coroutines.CoroutineContext
 
 class AllTripsViewModel @Inject constructor(
-    tripRepo: TripRepository
-) : ViewModel() {
+    private val tripRepo: TripRepository
+) : ViewModel(), CoroutineScope {
 
     private val job = SupervisorJob()
-    private val scope = CoroutineScope(Dispatchers.Main + job)
+    override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
     private val mutableAllTripsLiveData = MutableLiveData<List<Trip>>()
     val allTripsLiveData: LiveData<List<Trip>> = mutableAllTripsLiveData
 
     init {
-        scope.launch(Dispatchers.IO) {
+        launch(Dispatchers.IO) {
+            mutableAllTripsLiveData.postValue(tripRepo.getTrips())
+        }
+    }
+
+    suspend fun refreshTrips() {
+        tripRepo.resetMemoryCache()
+        withContext(Dispatchers.IO) {
             mutableAllTripsLiveData.postValue(tripRepo.getTrips())
         }
     }
