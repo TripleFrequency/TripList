@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_trips.*
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.Trip
