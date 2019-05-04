@@ -6,7 +6,6 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import me.michaelhaas.triplist.service.core.model.Trip
 import me.michaelhaas.triplist.service.core.model.resolver.ImageResolver
-import me.michaelhaas.triplist.service.core.util.toBase64
 import me.michaelhaas.triplist.service.db.dao.TripDao
 import me.michaelhaas.triplist.service.db.model.TripEntity
 import me.michaelhaas.triplist.service.http.TripListApi
@@ -33,7 +32,7 @@ class TripRepository @Inject constructor(
                 loadTripsFromWeb()
             } else {
                 dbTrips.map {
-                    Trip(it.id, it.name, getThumbnailResolver(it.id, it.thumbnailUrl, it.encodedThumbnail)) {
+                    Trip(it.id, it.name, getThumbnailResolver(it.thumbnailUrl)) {
                         detailsRepository.getDetails(it.id)
                     }
                 }
@@ -43,7 +42,8 @@ class TripRepository @Inject constructor(
         }
     }
 
-    suspend fun getTrip(tripId: Int) = (tripCache ?: getTrips()).find { it.id == tripId } ?: throw IllegalStateException("No trip found for id $tripId")
+    suspend fun getTrip(tripId: Int) = (tripCache ?: getTrips()).find { it.id == tripId }
+        ?: throw IllegalStateException("No trip found for id $tripId")
 
     private suspend fun loadTripsFromWeb(): List<Trip> =
         try {
@@ -57,7 +57,7 @@ class TripRepository @Inject constructor(
             insertContracts(contracts)
         }
         return contracts.map {
-            Trip(it.id, it.name, getThumbnailResolver(it.id, it.thumbnailUrl)) {
+            Trip(it.id, it.name, getThumbnailResolver(it.thumbnailUrl)) {
                 detailsRepository.getDetails(it.id)
             }
         }
@@ -65,18 +65,9 @@ class TripRepository @Inject constructor(
 
     private fun insertContracts(contracts: List<TripContract>) {
         tripDao.insertTrips(contracts.map {
-            TripEntity(it.id, it.name, it.thumbnailUrl, null, null)
+            TripEntity(it.id, it.name, it.thumbnailUrl, null)
         })
     }
 
-    private fun getThumbnailResolver(tripId: Int, url: String, encoded: String? = null) =
-        if (encoded == null) {
-            ImageResolver.WebImageResolver(Uri.parse(url)) {
-                it?.let { bmp ->
-                    tripDao.updateTripThumbnail(tripId, bmp.toBase64())
-                }
-            }
-        } else {
-            ImageResolver.CacheImageResolver(encoded)
-        }
+    private fun getThumbnailResolver(url: String) = ImageResolver(Uri.parse(url))
 }

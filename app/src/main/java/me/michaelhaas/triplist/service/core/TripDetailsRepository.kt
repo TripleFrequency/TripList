@@ -57,7 +57,7 @@ class TripDetailsRepository @Inject constructor(
         return TripDetails(
             contract.location,
             contract.description,
-            photoRepository.getResolvers(contract.id, contract.photoUrls),
+            photoRepository.getResolvers(contract.photoUrls),
             contract.activities.map { it.toTripActivity() }
         )
     }
@@ -70,7 +70,7 @@ class TripDetailsRepository @Inject constructor(
             tripDao.updateTrip(existingEntity.copy(details = detailEntity))
 
             photoDao.deleteFor(contract.id)
-            photoDao.insertPhotos(contract.photoUrls.map { PhotoEntity(0, contract.id, it, null) })
+            photoDao.insertPhotos(contract.photoUrls.map { PhotoEntity(0, contract.id, it) })
 
             activityDao.deleteFor(contract.id)
             activityDao.insertActivities(contract.activities.map {

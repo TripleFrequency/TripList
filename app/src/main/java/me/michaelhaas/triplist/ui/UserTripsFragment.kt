@@ -7,9 +7,13 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_trips.*
 import me.michaelhaas.triplist.R
+import me.michaelhaas.triplist.service.core.model.UserTrip
+import me.michaelhaas.triplist.ui.adapter.TripRecyclerAdapter
 import me.michaelhaas.triplist.ui.vm.UserTripsViewModel
 import javax.inject.Inject
 
@@ -23,6 +27,8 @@ class UserTripsFragment : DaggerFragment() {
             viewModelFactory
         )[UserTripsViewModel::class.java]
     }
+
+    private val tripRecyclerAdapter by lazy { TripRecyclerAdapter<UserTrip>() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,10 +45,16 @@ class UserTripsFragment : DaggerFragment() {
         view_all_trips_button?.text = getString(R.string.button_all_trips)
         view_all_trips_button?.setOnClickListener { viewAllClicked() }
 
+        context?.let {
+            user_trip_recycler?.layoutManager = LinearLayoutManager(it, RecyclerView.VERTICAL, false)
+            user_trip_recycler?.adapter = tripRecyclerAdapter
+        }
+
         userTripsViewModel.userTripLiveData.observe(this, Observer {
             if (it.isNullOrEmpty()) {
                 showZeroState()
             } else {
+                tripRecyclerAdapter.items = it
                 hideZeroState()
             }
         })

@@ -17,7 +17,7 @@ import me.michaelhaas.triplist.service.db.model.*
         TripEntity::class,
         UserTripEntity::class
     ],
-    version = 2019050301
+    version = 2019050401
 )
 abstract class TripListDatabase : RoomDatabase() {
 
@@ -30,6 +30,10 @@ abstract class TripListDatabase : RoomDatabase() {
         private const val TRIP_DATABASE_NAME = "trip-database"
 
         operator fun invoke(context: Context) =
-            Room.databaseBuilder(context, TripListDatabase::class.java, TRIP_DATABASE_NAME).build()
+            Room.databaseBuilder(
+                context,
+                TripListDatabase::class.java,
+                TRIP_DATABASE_NAME
+            ).fallbackToDestructiveMigration().build()
     }
 }
