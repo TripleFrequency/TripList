@@ -1,4 +1,4 @@
-package me.michaelhaas.triplist.service.core.model
+package me.michaelhaas.triplist.service.core.model.resolver
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,12 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import java.io.IOException
+import java.lang.IllegalArgumentException
 
-sealed class Image {
+sealed class ImageResolver: BaseResolver<Bitmap>() {
 
-    abstract suspend fun resolve(): Bitmap?
-
-    data class WebImage(val url: Uri, private val postLoadCallback: (suspend (Bitmap?) -> Unit)? = null) : Image() {
+    class WebImageResolver(val url: Uri, private val callback: WebResolverCallback<Bitmap>?) : ImageResolver() {
         override suspend fun resolve() =
             try {
                 Picasso.get().load(url).get()?.also {
@@ -26,13 +25,17 @@ sealed class Image {
 
         private suspend fun fireCallback(bmp: Bitmap) = coroutineScope {
             launch(Dispatchers.IO) {
-                postLoadCallback?.invoke(bmp)
+                callback?.invoke(bmp)
             }
         }
     }
 
-    data class CacheImage(val encodedImage: String) : Image() {
+    class CacheImageResolver(val encodedImage: String) : ImageResolver() {
         override suspend fun resolve(): Bitmap? =
-            Base64.decode(encodedImage, Base64.DEFAULT)?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+            try {
+                Base64.decode(encodedImage, Base64.DEFAULT)?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+            } catch (e: IllegalArgumentException) {
+                null
+            }
     }
 }

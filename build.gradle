@@ -30,6 +30,6 @@ task clean(type: Delete) {
 ext {
     roomVersion = '1.1.1'
     archLifecycleVersion = '1.1.1'
-    coroutines = '1.1.0'
+    coroutines = '1.2.1'
     dagger = '2.21'
 }

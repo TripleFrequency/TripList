@@ -11,5 +11,5 @@ interface TripListApi {
     fun getTrips(): Call<List<TripContract>>
 
     @GET("details/{tripId}")
-    fun getTripDetails(@Path("tripId") tripId: Int): Call<List<TripDetailsContract>>
+    fun getTripDetails(@Path("tripId") tripId: Int): Call<TripDetailsContract>
 }
