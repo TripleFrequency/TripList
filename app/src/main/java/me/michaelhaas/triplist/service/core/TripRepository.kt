@@ -14,7 +14,7 @@ import me.michaelhaas.triplist.service.http.model.TripContract
 import java.io.IOException
 import javax.inject.Inject
 
-class TripListRepository @Inject constructor(
+class TripRepository @Inject constructor(
     private val tripDao: TripDao,
     private val detailsRepository: TripDetailsRepository,
     private val webApi: TripListApi
@@ -42,6 +42,8 @@ class TripListRepository @Inject constructor(
             }
         }
     }
+
+    suspend fun getTrip(tripId: Int) = (tripCache ?: getTrips()).find { it.id == tripId } ?: throw IllegalStateException("No trip found for id $tripId")
 
     private suspend fun loadTripsFromWeb(): List<Trip> =
         try {

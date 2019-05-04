@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import me.michaelhaas.triplist.service.db.dao.ActivityDao
 import me.michaelhaas.triplist.service.db.dao.PhotoDao
 import me.michaelhaas.triplist.service.db.dao.TripDao
+import me.michaelhaas.triplist.service.db.dao.UserTripDao
 import me.michaelhaas.triplist.service.db.model.*
 
 @Database(
@@ -23,6 +24,7 @@ abstract class TripListDatabase : RoomDatabase() {
     abstract fun photoDao(): PhotoDao
     abstract fun activityDao(): ActivityDao
     abstract fun tripDao(): TripDao
+    abstract fun userTripDao(): UserTripDao
 
     companion object {
         private const val TRIP_DATABASE_NAME = "trip-database"

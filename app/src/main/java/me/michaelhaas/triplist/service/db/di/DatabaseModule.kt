@@ -16,4 +16,10 @@ class DatabaseModule {
 
     @Provides
     fun provideActivityDao(database: TripListDatabase) = database.activityDao()
+
+    @Provides
+    fun provideTripDao(database: TripListDatabase) = database.tripDao()
+
+    @Provides
+    fun provideUserTripDao(database: TripListDatabase) = database.userTripDao()
 }

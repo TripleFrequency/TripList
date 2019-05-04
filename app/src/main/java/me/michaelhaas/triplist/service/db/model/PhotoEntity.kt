@@ -15,7 +15,7 @@ import androidx.room.*
 )
 data class PhotoEntity(
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "id") val id: Int,
-    @ColumnInfo(name = "trip_id") val tripId: Int,
+    @ColumnInfo(name = "trip_id", index = true) val tripId: Int,
     @ColumnInfo(name = "photo_url") val photoUrl: String,
     @ColumnInfo(name = "photo_encoded") val encodedPhoto: String?
 )
