@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import me.michaelhaas.triplist.R
+import me.michaelhaas.triplist.ui.AllTripsFragment
 import me.michaelhaas.triplist.ui.UserTripsFragment
 
 class TripPagerAdapter(private val context: Context, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -11,7 +12,7 @@ class TripPagerAdapter(private val context: Context, fm: FragmentManager) : Frag
 
     override fun getItem(position: Int) = when (position) {
         TAB_POSITION_YOUR_TRIPS -> UserTripsFragment.Builder().build()
-        TAB_POSITION_ALL_TRIPS -> UserTripsFragment.Builder().build()
+        TAB_POSITION_ALL_TRIPS -> AllTripsFragment.Builder().build()
         else -> throw IllegalStateException("Attempt to open non-existent tab at index $position")
     }
 

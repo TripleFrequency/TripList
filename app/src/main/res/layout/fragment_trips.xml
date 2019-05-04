@@ -43,22 +43,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="@string/label_trip_none_planned"
             app:layout_constraintBottom_toTopOf="@id/view_all_trips_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/no_trips_icon" />
+            app:layout_constraintTop_toBottomOf="@id/no_trips_icon"
+            tools:text="@string/label_trip_none_planned" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/view_all_trips_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:text="@string/button_all_trips"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/no_trips_text" />
+            app:layout_constraintTop_toBottomOf="@id/no_trips_text"
+            tools:text="@string/button_all_trips" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

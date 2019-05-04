@@ -10,18 +10,18 @@ import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_trips.*
 import me.michaelhaas.triplist.R
-import me.michaelhaas.triplist.ui.vm.UserTripsViewModel
+import me.michaelhaas.triplist.ui.vm.AllTripsViewModel
 import javax.inject.Inject
 
-class UserTripsFragment : DaggerFragment() {
+class AllTripsFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    private val userTripsViewModel by lazy {
+    private val allTripsViewModel by lazy {
         ViewModelProviders.of(
             this,
             viewModelFactory
-        )[UserTripsViewModel::class.java]
+        )[AllTripsViewModel::class.java]
     }
 
     override fun onCreateView(
@@ -31,15 +31,13 @@ class UserTripsFragment : DaggerFragment() {
     ): View? = inflater.inflate(R.layout.fragment_trips, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        no_trips_icon?.setBackgroundResource(R.drawable.ic_card_travel_black_24dp)
+        no_trips_icon?.setBackgroundResource(R.drawable.ic_error_outline_black_24dp)
 
-        no_trips_text?.text = getString(R.string.label_trip_none_planned)
+        no_trips_text?.text = getString(R.string.label_no_trips_available)
 
-        view_all_trips_button?.visibility = View.VISIBLE
-        view_all_trips_button?.text = getString(R.string.button_all_trips)
-        view_all_trips_button?.setOnClickListener { viewAllClicked() }
+        view_all_trips_button?.visibility = View.GONE
 
-        userTripsViewModel.userTripLiveData.observe(this, Observer {
+        allTripsViewModel.allTripsLiveData.observe(this, Observer {
             if (it.isNullOrEmpty()) {
                 showZeroState()
             } else {
@@ -58,11 +56,7 @@ class UserTripsFragment : DaggerFragment() {
         container_trips_zero_state?.visibility = View.GONE
     }
 
-    private fun viewAllClicked() {
-        (activity as? MainActivity?)?.scrollToAllTrips()
-    }
-
     class Builder {
-        fun build() = UserTripsFragment()
+        fun build() = AllTripsFragment()
     }
 }
