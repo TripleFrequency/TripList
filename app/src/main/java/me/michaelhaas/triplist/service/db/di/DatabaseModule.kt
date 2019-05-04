@@ -10,4 +10,10 @@ class DatabaseModule {
 
     @Provides
     fun provideDatabase(context: Context) = TripListDatabase(context)
+
+    @Provides
+    fun providePhotoDao(database: TripListDatabase) = database.photoDao()
+
+    @Provides
+    fun provideActivityDao(database: TripListDatabase) = database.activityDao()
 }

@@ -1,10 +1,12 @@
 package me.michaelhaas.triplist.service.db.dao
 
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import me.michaelhaas.triplist.service.db.model.ActivityEntity
 
+@Dao
 abstract class ActivityDao {
 
     @Insert
