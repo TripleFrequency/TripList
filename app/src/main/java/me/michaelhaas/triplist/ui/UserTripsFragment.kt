@@ -31,7 +31,7 @@ class UserTripsFragment : DaggerFragment() {
     ): View? = inflater.inflate(R.layout.fragment_user_trips, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        container_trips_zero_state?.setOnClickListener { viewAllClicked() }
+        view_all_trips_button?.setOnClickListener { viewAllClicked() }
         userTripsViewModel.userTripLiveData.observe(this, Observer {
             if (it.isNullOrEmpty()) {
                 user_trip_recycler?.visibility = View.GONE
@@ -44,14 +44,10 @@ class UserTripsFragment : DaggerFragment() {
     }
 
     private fun viewAllClicked() {
-        // TODO Switch tab to all trips
+        (activity as? MainActivity?)?.scrollToAllTrips()
     }
 
     class Builder {
         fun build() = UserTripsFragment()
-    }
-
-    companion object {
-        const val NAVIGATION_NAME = "FRAGMENT_USER_TRIPS"
     }
 }
