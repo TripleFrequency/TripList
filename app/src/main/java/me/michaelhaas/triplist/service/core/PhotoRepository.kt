@@ -6,6 +6,7 @@ import android.util.Base64
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import me.michaelhaas.triplist.service.core.model.resolver.ImageResolver
+import me.michaelhaas.triplist.service.core.util.toBase64
 import me.michaelhaas.triplist.service.db.dao.PhotoDao
 import me.michaelhaas.triplist.service.db.model.PhotoEntity
 import java.io.ByteArrayOutputStream
@@ -34,9 +35,7 @@ class PhotoRepository @Inject constructor(
     }
 
     private fun saveToDatabase(tripId: Int, url: String, existing: PhotoEntity?, it: Bitmap?) {
-        val imageString = Base64.encodeToString(ByteArrayOutputStream().also { baos ->
-            it?.compress(Bitmap.CompressFormat.PNG, 100, baos)
-        }.toByteArray(), Base64.DEFAULT)
+        val imageString = it?.toBase64()
 
         val update = existing?.copy(encodedPhoto = imageString)
         if (update != null) {

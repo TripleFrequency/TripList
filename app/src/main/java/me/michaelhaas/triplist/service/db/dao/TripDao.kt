@@ -20,4 +20,7 @@ abstract class TripDao {
 
     @Update
     abstract fun updateTrip(trip: TripEntity)
+
+    @Query("UPDATE trips SET thumbnail_encoded = :encoded WHERE id = :tripId;")
+    abstract fun updateTripThumbnail(tripId: Int, encoded: String)
 }
