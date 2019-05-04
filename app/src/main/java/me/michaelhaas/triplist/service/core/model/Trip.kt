@@ -6,5 +6,9 @@ data class Trip(
     val id: Int,
     val name: String,
     val thumbnail: ImageResolver,
-    val tripDetails: TripDetails
-)
+    private val tripDetailsResolver: suspend () -> TripDetails?
+) {
+    private var _tripDetails: TripDetails? = null
+
+    suspend fun getTripDetails() = _tripDetails ?: tripDetailsResolver()?.also { _tripDetails = it }
+}

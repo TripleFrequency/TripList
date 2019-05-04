@@ -1,16 +1,15 @@
 package me.michaelhaas.triplist.service.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import me.michaelhaas.triplist.service.db.model.PhotoEntity
 
 @Dao
 abstract class PhotoDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertPhoto(photo: PhotoEntity)
+
+    abstract fun insertPhotos(photos: List<PhotoEntity>)
 
     @Query("SELECT * FROM trip_photos WHERE trip_id = :tripId AND photo_url = :photoUrl LIMIT 1;")
     abstract fun getPhoto(tripId: Int, photoUrl: String): PhotoEntity?
@@ -20,4 +19,7 @@ abstract class PhotoDao {
 
     @Update
     abstract fun updatePhoto(photo: PhotoEntity)
+
+    @Query("DELETE FROM trip_photos WHERE trip_id = :tripId;")
+    abstract fun deleteFor(tripId: Int)
 }

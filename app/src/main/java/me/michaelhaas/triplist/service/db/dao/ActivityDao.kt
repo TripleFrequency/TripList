@@ -1,18 +1,15 @@
 package me.michaelhaas.triplist.service.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import me.michaelhaas.triplist.service.db.model.ActivityEntity
 
 @Dao
 abstract class ActivityDao {
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertActivity(activity: ActivityEntity)
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insertActivities(activities: List<ActivityEntity>)
 
     @Query("SELECT* FROM trip_activities WHERE trip_id = :tripId;")
@@ -20,4 +17,7 @@ abstract class ActivityDao {
 
     @Update
     abstract fun updateActivity(activity: ActivityEntity)
+
+    @Query("DELETE FROM trip_activities WHERE trip_id = :tripId;")
+    abstract fun deleteFor(tripId: Int)
 }

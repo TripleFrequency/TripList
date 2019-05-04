@@ -11,12 +11,15 @@ import kotlinx.coroutines.launch
 import java.io.IOException
 import java.lang.IllegalArgumentException
 
-sealed class ImageResolver: BaseResolver<Bitmap>() {
+sealed class ImageResolver : BaseResolver<Bitmap>() {
 
     class WebImageResolver(val url: Uri, private val callback: WebResolverCallback<Bitmap>?) : ImageResolver() {
+        private var cached: Bitmap? = null
+
         override suspend fun resolve() =
             try {
-                Picasso.get().load(url).get()?.also {
+                cached ?: Picasso.get().load(url).get()?.also {
+                    cached = it
                     fireCallback(it)
                 }
             } catch (e: IOException) {
@@ -31,9 +34,19 @@ sealed class ImageResolver: BaseResolver<Bitmap>() {
     }
 
     class CacheImageResolver(val encodedImage: String) : ImageResolver() {
+        private var cached: Bitmap? = null
+
         override suspend fun resolve(): Bitmap? =
             try {
-                Base64.decode(encodedImage, Base64.DEFAULT)?.let { BitmapFactory.decodeByteArray(it, 0, it.size) }
+                cached ?: Base64.decode(encodedImage, Base64.DEFAULT)?.let {
+                    BitmapFactory.decodeByteArray(
+                        it,
+                        0,
+                        it.size
+                    )
+                }?.also {
+                    cached = it
+                }
             } catch (e: IllegalArgumentException) {
                 null
             }

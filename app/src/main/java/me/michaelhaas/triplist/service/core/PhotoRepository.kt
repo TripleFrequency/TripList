@@ -15,6 +15,9 @@ class PhotoRepository @Inject constructor(
     private val photoDao: PhotoDao
 ) {
 
+    suspend fun getResolvers(tripId: Int, urls: List<String>) =
+        withContext(Dispatchers.IO) { urls.map { getResolver(tripId, it) } }
+
     suspend fun getResolvers(tripId: Int): List<ImageResolver> =
         withContext(Dispatchers.IO) { photoDao.getPhotos(tripId).map { getResolver(tripId, it.photoUrl) } }
 
