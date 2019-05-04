@@ -1,10 +1,15 @@
 package me.michaelhaas.triplist.ui
 
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
+import androidx.core.util.Pair
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_main.*
 import me.michaelhaas.triplist.R
+import me.michaelhaas.triplist.service.core.model.Trip
 import me.michaelhaas.triplist.ui.adapter.TripPagerAdapter
 
 class MainActivity : FragmentActivity() {
@@ -25,6 +30,20 @@ class MainActivity : FragmentActivity() {
             content_pager?.let {
                 it.currentItem--
             }
+        }
+    }
+
+    fun openDetailsFromFragment(fragment: Fragment, trip: Trip, sharedViews: Array<Pair<View, String>>) {
+        val (intent, bundle) = TripDetailsActivity.Builder(
+            trip.id,
+            trip.thumbnail.url.toString(),
+            true,
+            *sharedViews
+        ).buildIntent(this)
+        if (bundle == null) {
+            startActivity(intent)
+        } else {
+            startActivityFromFragment(fragment, intent, 0, bundle)
         }
     }
 

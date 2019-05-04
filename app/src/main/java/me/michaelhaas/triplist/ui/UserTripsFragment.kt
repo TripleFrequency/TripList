@@ -32,7 +32,11 @@ class UserTripsFragment : DaggerFragment(), SwipeRefreshLayout.OnRefreshListener
         )[UserTripsViewModel::class.java]
     }
 
-    private val tripRecyclerAdapter by lazy { TripRecyclerAdapter<UserTrip>() }
+    private val tripRecyclerAdapter by lazy {
+        TripRecyclerAdapter<UserTrip>({ trip, sharedViews ->
+            (activity as? MainActivity?)?.openDetailsFromFragment(this, trip, sharedViews)
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

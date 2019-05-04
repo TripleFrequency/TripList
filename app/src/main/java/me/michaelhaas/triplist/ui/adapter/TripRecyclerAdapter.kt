@@ -6,13 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.Trip
 import me.michaelhaas.triplist.service.core.model.UserTrip
 import java.util.*
 
-class TripRecyclerAdapter<T : Any>(items: List<T>? = null) :
+class TripRecyclerAdapter<T : Any>(
+    private val tripClickListener: ((Trip, Array<Pair<View, String>>) -> Unit)? = null,
+    items: List<T>? = null
+) :
     RecyclerView.Adapter<TripRecyclerAdapter.TripViewHolder<T>>() {
 
     var items: List<T> = items ?: emptyList()
@@ -32,8 +36,8 @@ class TripRecyclerAdapter<T : Any>(items: List<T>? = null) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TripViewHolder<T> {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trip, parent, false)
         return when (viewType) {
-            VIEW_TYPE_USER_TRIP -> TripViewHolder.UserTripViewHolder(view) as TripViewHolder<T>
-            VIEW_TYPE_TRIP -> TripViewHolder.GeneralTripViewHolder(view) as TripViewHolder<T>
+            VIEW_TYPE_USER_TRIP -> TripViewHolder.UserTripViewHolder(view, tripClickListener) as TripViewHolder<T>
+            VIEW_TYPE_TRIP -> TripViewHolder.GeneralTripViewHolder(view, tripClickListener) as TripViewHolder<T>
             else -> throw IllegalStateException("Unknown view type $viewType")
         }
     }
@@ -44,16 +48,31 @@ class TripRecyclerAdapter<T : Any>(items: List<T>? = null) :
         }
     }
 
-    sealed class TripViewHolder<T : Any>(protected val view: View) : RecyclerView.ViewHolder(view) {
+    sealed class TripViewHolder<T : Any>(
+        protected val view: View,
+        protected val clickListener: ((Trip, Array<Pair<View, String>>) -> Unit)?
+    ) : RecyclerView.ViewHolder(view) {
 
+        protected val containerView: View = view.findViewById(R.id.trip_container)
         protected val thumbnailView: ImageView = view.findViewById(R.id.trip_thumbnail)
         protected val titleView: TextView = view.findViewById(R.id.trip_title)
         protected val subLineView: TextView = view.findViewById(R.id.trip_sub_line)
 
         abstract fun bind(item: T)
 
-        class UserTripViewHolder(view: View) : TripViewHolder<UserTrip>(view) {
+        class UserTripViewHolder(
+            view: View,
+            clickListener: ((Trip, Array<Pair<View, String>>) -> Unit)?
+        ) : TripViewHolder<UserTrip>(view, clickListener) {
             override fun bind(item: UserTrip) {
+                containerView.setOnClickListener {
+                    it?.context?.resources?.getString(R.string.transition_trip_image)?.let { imageTransitionName ->
+                        clickListener?.invoke(
+                            item.trip,
+                            arrayOf<Pair<View, String>>(Pair(thumbnailView, imageTransitionName))
+                        )
+                    }
+                }
                 titleView.text = item.trip.name
                 subLineView.text = formatDates(item.startDate, item.endDate) ?: ""
                 item.trip.thumbnail.resolveInto(thumbnailView)
@@ -64,8 +83,19 @@ class TripRecyclerAdapter<T : Any>(items: List<T>? = null) :
             }
         }
 
-        class GeneralTripViewHolder(view: View) : TripViewHolder<Trip>(view) {
+        class GeneralTripViewHolder(
+            view: View,
+            clickListener: ((Trip, Array<Pair<View, String>>) -> Unit)?
+        ) : TripViewHolder<Trip>(view, clickListener) {
             override fun bind(item: Trip) {
+                containerView.setOnClickListener {
+                    it?.context?.resources?.getString(R.string.transition_trip_image)?.let { imageTransitionName ->
+                        clickListener?.invoke(
+                            item,
+                            arrayOf<Pair<View, String>>(Pair(thumbnailView, imageTransitionName))
+                        )
+                    }
+                }
                 titleView.text = item.name
                 subLineView.visibility = View.GONE
                 item.thumbnail.resolveInto(thumbnailView)
