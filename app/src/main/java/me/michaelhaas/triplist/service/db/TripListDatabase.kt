@@ -30,6 +30,6 @@ abstract class TripListDatabase : RoomDatabase() {
         private const val TRIP_DATABASE_NAME = "trip-database"
 
         operator fun invoke(context: Context) =
-            Room.databaseBuilder(context, TripListDatabase::class.java, TRIP_DATABASE_NAME)
+            Room.databaseBuilder(context, TripListDatabase::class.java, TRIP_DATABASE_NAME).build()
     }
 }

@@ -16,6 +16,6 @@ class HttpModule {
     fun provideTripListApi(retrofit: Retrofit) = retrofit.create(TripListApi::class.java)
 
     companion object {
-        const val TRIP_LIST_BASE_URL = "https://my-json-server.typicode.com/TripleFrequency/trip-list"
+        const val TRIP_LIST_BASE_URL = "https://my-json-server.typicode.com/TripleFrequency/trip-list/"
     }
 }
