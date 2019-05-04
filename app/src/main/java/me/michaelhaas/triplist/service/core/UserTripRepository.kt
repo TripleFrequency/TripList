@@ -3,6 +3,7 @@ package me.michaelhaas.triplist.service.core
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.*
+import me.michaelhaas.triplist.service.core.model.Trip
 import me.michaelhaas.triplist.service.core.model.UserTrip
 import me.michaelhaas.triplist.service.db.dao.UserTripDao
 import me.michaelhaas.triplist.service.db.model.UserTripEntity
@@ -35,6 +36,9 @@ class UserTripRepository @Inject constructor(
     }
 
     fun getTripsFor(tripId: Int) = scope.async { userTripDao.getUserTripsFor(tripId) }
+
+    fun createTrip(trip: UserTrip) =
+        scope.async { userTripDao.insertTrip(UserTripEntity(trip.id, trip.trip.id, trip.startDate, trip.endDate)) }
 
     fun updateTrip(trip: UserTripEntity): Job = scope.launch { userTripDao.updateUserTrip(trip) }
 
