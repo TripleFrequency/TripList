@@ -1,11 +1,32 @@
 {
-  "destinations": [
+  "trips": [
     {
       "id": 1,
-      "title": "Some Famous Place"
+      "name": "The Grand Canyon",
+      "thumbnailUrl": "https://i.imgur.com/sdR7chK.jpg"
     }
   ],
-  "activities": [
-
+  "details": [
+    {
+      "id": 1,
+      "location": "Arizona",
+      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
+      "photoUrls": [
+        "https://i.imgur.com/sdR7chK.jpg",
+        "https://i.imgur.com/sdR7chK.jpg"
+      ],
+      "activities": [
+        {
+          "name": "Grand Canyon Village",
+          "type": "",
+          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
+        },
+        {
+          "name": "Bright Angel Trail",
+          "type": "",
+          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
+        }
+      ]
+    }
   ]
 }
