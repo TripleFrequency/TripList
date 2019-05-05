@@ -56,4 +56,6 @@ class MainActivity : AppCompatActivity() {
             it.currentItem = TripPagerAdapter.TAB_POSITION_ALL_TRIPS
         }
     }
+
+
 }

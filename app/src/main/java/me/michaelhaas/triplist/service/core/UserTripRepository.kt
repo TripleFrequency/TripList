@@ -2,7 +2,9 @@ package me.michaelhaas.triplist.service.core
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.*
+import me.michaelhaas.triplist.analytics.AnalyticsBuilder
 import me.michaelhaas.triplist.service.core.model.UserTrip
 import me.michaelhaas.triplist.service.db.dao.UserTripDao
 import me.michaelhaas.triplist.service.db.model.UserTripEntity
@@ -11,7 +13,8 @@ import javax.inject.Inject
 
 class UserTripRepository @Inject constructor(
     private val userTripDao: UserTripDao,
-    private val tripRepository: TripRepository
+    private val tripRepository: TripRepository,
+    private val analytics: FirebaseAnalytics
 ) {
 
     private val job = SupervisorJob()
@@ -38,16 +41,21 @@ class UserTripRepository @Inject constructor(
         scope.async {
             userTripDao.insertTrip(trip).also {
                 refreshLiveData().join()
+                AnalyticsBuilder.UserTripEvent.UserTripCreatedEvent(trip.tripId).log(analytics)
             }
         }
 
-    fun updateTrip(userTripId: Int, startDate: Date, endDate: Date): Job =
+    fun updateTrip(userTripId: Int, tripId: Int, startDate: Date, endDate: Date): Job =
         scope.launch {
             userTripDao.updateUserTrip(userTripId, startDate, endDate)
             refreshLiveData().join()
+            AnalyticsBuilder.UserTripEvent.UserTripUpdatedEvent(tripId).log(analytics)
         }
 
-    fun deleteTrip(userTripId: Int): Job = scope.launch { userTripDao.deleteUserTrip(userTripId) }
+    fun deleteTrip(userTripId: Int, tripId: Int): Job = scope.launch {
+        userTripDao.deleteUserTrip(userTripId)
+        AnalyticsBuilder.UserTripEvent.UserTripDeletedEvent(tripId).log(analytics)
+    }
 
     private fun mapTrips(it: List<UserTripEntity>) {
         scope.launch {

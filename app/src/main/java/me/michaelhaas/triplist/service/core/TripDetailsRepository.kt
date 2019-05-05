@@ -1,6 +1,8 @@
 package me.michaelhaas.triplist.service.core
 
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.*
+import me.michaelhaas.triplist.analytics.AnalyticsBuilder
 import me.michaelhaas.triplist.service.core.model.TripDetails
 import me.michaelhaas.triplist.service.db.ActivityRepository
 import me.michaelhaas.triplist.service.db.TripListDatabase
@@ -24,7 +26,8 @@ class TripDetailsRepository @Inject constructor(
     private val photoDao: PhotoDao,
     private val activityDao: ActivityDao,
     private val photoRepository: PhotoRepository,
-    private val activityRepository: ActivityRepository
+    private val activityRepository: ActivityRepository,
+    private val analytics: FirebaseAnalytics
 ) {
 
     private val job = SupervisorJob()
@@ -45,7 +48,9 @@ class TripDetailsRepository @Inject constructor(
 
     private suspend fun loadDetailsFromWeb(tripId: Int): TripDetails? =
         try {
-            webApi.getTripDetails(tripId).execute().body()?.let { getDetails(it) }
+            webApi.getTripDetails(tripId).execute().body()?.let { getDetails(it) }.also {
+                AnalyticsBuilder.EndpointCalledEvent.TripDetailsCalledEvent(tripId).log(analytics)
+            }
         } catch (e: IOException) {
             null
         }

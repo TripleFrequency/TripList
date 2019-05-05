@@ -12,12 +12,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_trip_editor.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.michaelhaas.triplist.R
+import me.michaelhaas.triplist.analytics.AnalyticsBuilder
 import me.michaelhaas.triplist.ui.vm.TripEditorViewModel
 import java.text.DateFormat
 import java.util.*
@@ -33,6 +35,9 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var newStartDate: Date? = null
     private var newEndDate: Date? = null
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
@@ -86,12 +91,13 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     .setMessage(R.string.dialog_delete_message)
                     .setIcon(R.drawable.ic_delete_forever_24dp)
                     .setPositiveButton(R.string.dialog_delete_title) { dialog, _ ->
-                        editorViewModel.deleteUserTrip(it)
+                        editorViewModel.deleteUserTrip(it, tripId)
                         dialog.dismiss()
                         activity?.supportFinishAfterTransition()
                     }
                     .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
+                        AnalyticsBuilder.TripEditorEvent.TripEditorDeleteCancelledEvent(tripId).log(analytics)
                     }.show()
             }
         }
@@ -116,7 +122,7 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     withContext(Dispatchers.IO) {
                         val uTripId = userTripId
                         if (uTripId != null) {
-                            editorViewModel.updateUserTrip(uTripId, nStartDate, nEndDate)
+                            editorViewModel.updateUserTrip(uTripId, tripId, nStartDate, nEndDate)
                         } else {
                             val inserted = editorViewModel.insertUserTrip(tripId, nStartDate, nEndDate).toInt()
                             newId = inserted

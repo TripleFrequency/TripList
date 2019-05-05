@@ -19,8 +19,6 @@ class UserTripsViewModel @Inject constructor(
 
     fun refresh() = userTripRepo.refreshLiveData()
 
-    fun deleteTrip(userTripId: Int) = userTripRepo.deleteTrip(userTripId)
-
     override fun onCleared() {
         super.onCleared()
         job.cancel()

@@ -1,9 +1,11 @@
 package me.michaelhaas.triplist.service.core
 
 import android.net.Uri
+import com.google.firebase.analytics.FirebaseAnalytics
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import me.michaelhaas.triplist.analytics.AnalyticsBuilder
 import me.michaelhaas.triplist.service.core.model.Trip
 import me.michaelhaas.triplist.service.core.model.resolver.ImageResolver
 import me.michaelhaas.triplist.service.db.dao.TripDao
@@ -16,7 +18,8 @@ import javax.inject.Inject
 class TripRepository @Inject constructor(
     private val tripDao: TripDao,
     private val detailsRepository: TripDetailsRepository,
-    private val webApi: TripListApi
+    private val webApi: TripListApi,
+    private val analytics: FirebaseAnalytics
 ) {
 
     private val job = SupervisorJob()
@@ -51,7 +54,9 @@ class TripRepository @Inject constructor(
 
     private suspend fun loadTripsFromWeb(): List<Trip> =
         try {
-            webApi.getTrips().execute().body()?.let { getTrip(it) }
+            webApi.getTrips().execute().body()?.let { getTrip(it) }.also {
+                AnalyticsBuilder.EndpointCalledEvent.AllTripsCalledEvent().log(analytics)
+            }
         } catch (e: IOException) {
             null
         } ?: emptyList()

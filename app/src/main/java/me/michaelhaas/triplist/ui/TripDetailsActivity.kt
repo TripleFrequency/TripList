@@ -15,12 +15,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.analytics.FirebaseAnalytics
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_details.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import me.michaelhaas.triplist.R
+import me.michaelhaas.triplist.analytics.AnalyticsBuilder
 import me.michaelhaas.triplist.service.core.model.resolver.ImageResolver
 import me.michaelhaas.triplist.service.db.model.UserTripEntity
 import me.michaelhaas.triplist.ui.adapter.TripDetailRecyclerAdapter
@@ -35,6 +37,9 @@ class TripDetailsActivity : AppCompatActivity() {
     private var thumbnailUrl: String? = null
 
     private var editorFragment: TripEditorFragment? = null
+
+    @Inject
+    lateinit var analytics: FirebaseAnalytics
 
     @Inject
     lateinit var nightModeUtil: NightModeUtil
@@ -162,6 +167,8 @@ class TripDetailsActivity : AppCompatActivity() {
 
             trip_sub_line?.visibility = View.GONE
             trip_fab?.hide()
+
+            AnalyticsBuilder.TripEditorEvent.TripEditorOpenedEvent(tripId).log(analytics)
         }
     }
 

@@ -20,10 +20,10 @@ class TripEditorViewModel @Inject constructor(
     suspend fun insertUserTrip(tripId: Int, startDate: Date, endDate: Date) =
         userTripRepo.createUserTripAsync(UserTripEntity(0, tripId, startDate, endDate)).await()
 
-    suspend fun updateUserTrip(userTripId: Int, startDate: Date, endDate: Date) =
-        userTripRepo.updateTrip(userTripId, startDate, endDate).join()
+    suspend fun updateUserTrip(userTripId: Int, tripId: Int, startDate: Date, endDate: Date) =
+        userTripRepo.updateTrip(userTripId, tripId, startDate, endDate).join()
 
-    fun deleteUserTrip(userTripId: Int) = userTripRepo.deleteTrip(userTripId)
+    fun deleteUserTrip(userTripId: Int, tripId: Int) = userTripRepo.deleteTrip(userTripId, tripId)
 
     override fun onCleared() {
         super.onCleared()
