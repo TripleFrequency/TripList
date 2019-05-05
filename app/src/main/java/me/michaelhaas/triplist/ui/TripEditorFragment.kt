@@ -93,7 +93,7 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     .setPositiveButton(R.string.dialog_delete_title) { dialog, _ ->
                         editorViewModel.deleteUserTrip(it, tripId)
                         dialog.dismiss()
-                        activity?.supportFinishAfterTransition()
+                        activity?.finish()
                     }
                     .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                         dialog.dismiss()
