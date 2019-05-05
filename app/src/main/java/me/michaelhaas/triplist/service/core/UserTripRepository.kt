@@ -34,6 +34,8 @@ class UserTripRepository @Inject constructor(
         }
     }
 
+    fun getUserTripAsync(userTripId: Int) = scope.async { userTripDao.getUserTrip(userTripId) }
+
     fun getUserTripsOfIdAsync(tripId: Int) = scope.async { userTripDao.getUserTripsFor(tripId) }
 
     fun createUserTripAsync(trip: UserTrip) =

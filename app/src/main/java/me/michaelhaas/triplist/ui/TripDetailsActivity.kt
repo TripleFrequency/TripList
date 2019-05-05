@@ -23,6 +23,7 @@ import javax.inject.Inject
 class TripDetailsActivity : AppCompatActivity() {
 
     private var tripId: Int = 0
+    private var userTripId: Int? = null
     private var thumbnailUrl: String? = null
 
     @Inject
@@ -45,6 +46,13 @@ class TripDetailsActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         tripId = intent?.getIntExtra(EXTRA_TRIP_ID, 0) ?: 0
+        userTripId = intent?.getIntExtra(EXTRA_USER_TRIP_ID, 0)?.let {
+            if (it == 0) {
+                null
+            } else {
+                it
+            }
+        }
         thumbnailUrl = intent?.getStringExtra(EXTRA_TRIP_THUMBNAIL_USE_CACHED)
 
         if (tripId == 0) {
@@ -54,6 +62,16 @@ class TripDetailsActivity : AppCompatActivity() {
         tripDetailsViewModel.getTrip(tripId).observe(this, Observer {
             trip_title?.text = it.name
         })
+
+        userTripId?.let { userTripId ->
+            tripDetailsViewModel.getUserTrip(userTripId).observe(this, Observer {
+                if (it == null) {
+                    trip_fab?.setImageResource(R.drawable.ic_add_black_24dp)
+                } else {
+                    trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
+                }
+            })
+        } ?: trip_fab?.setImageResource(R.drawable.ic_add_black_24dp)
 
         if (thumbnailUrl != null) {
             val thumbnailResolver = ImageResolver(Uri.parse(thumbnailUrl))
@@ -76,6 +94,7 @@ class TripDetailsActivity : AppCompatActivity() {
 
     class Builder(
         var tripId: Int,
+        var userTripId: Int? = null,
         var transitionThumbnailUrl: String? = null,
         var doImageTransition: Boolean = false,
         vararg val sharedComponents: androidx.core.util.Pair<View, String>
@@ -83,6 +102,9 @@ class TripDetailsActivity : AppCompatActivity() {
         fun buildIntent(context: Context): Pair<Intent, Bundle?> {
             val intent = Intent(context, TripDetailsActivity::class.java).apply {
                 putExtra(EXTRA_TRIP_ID, tripId)
+                userTripId?.let {
+                    putExtra(EXTRA_USER_TRIP_ID, it)
+                }
                 putExtra(EXTRA_TRIP_THUMBNAIL_USE_CACHED, transitionThumbnailUrl)
             }
             val options = if (doImageTransition && sharedComponents.isNotEmpty() && context is Activity) {
@@ -99,6 +121,7 @@ class TripDetailsActivity : AppCompatActivity() {
 
     companion object {
         private const val EXTRA_TRIP_ID = "tripId"
+        private const val EXTRA_USER_TRIP_ID = "userTripId"
         private const val EXTRA_TRIP_THUMBNAIL_USE_CACHED = "tripThumbnailUrl"
     }
 }

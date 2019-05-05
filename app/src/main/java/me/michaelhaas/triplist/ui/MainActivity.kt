@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     fun openDetailsFromFragment(fragment: Fragment, trip: Trip, sharedViews: Array<Pair<View, String>>) {
         val (intent, bundle) = TripDetailsActivity.Builder(
             trip.id,
+            null,
             trip.thumbnail.url.toString(),
             true,
             *sharedViews
