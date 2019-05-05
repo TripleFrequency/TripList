@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.TripList.DayNight">
         <item name="android:windowContentTransitions">true</item>
 
         <!-- Customize your theme here. -->

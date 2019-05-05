@@ -3,6 +3,7 @@ package me.michaelhaas.triplist.ui
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.util.Pair
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -12,12 +13,14 @@ import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.Trip
 import me.michaelhaas.triplist.ui.adapter.TripPagerAdapter
 
-class MainActivity : FragmentActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        supportActionBar?.hide()
 
         tabs_trips?.setupWithViewPager(content_pager)
         content_pager?.adapter = TripPagerAdapter(this, supportFragmentManager)

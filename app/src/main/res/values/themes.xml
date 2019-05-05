@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.TripList.Light" parent="Theme.MaterialComponents.Light">
+        <!-- light theme attributes -->
+    </style>
+
+    <style name="Theme.TripList.Dark" parent="Theme.MaterialComponents">
+        <!-- dark theme attributes -->
+    </style>
+
+    <style name="Base.Theme.TripList.DayNight" parent="Theme.TripList.Light" />
+
+    <style name="Theme.TripList.DayNight" parent="Base.Theme.TripList.DayNight">
+        <!-- independent theme attributes -->
+    </style>
+</resources>
