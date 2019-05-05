@@ -15,7 +15,7 @@ abstract class PhotoDao {
     @Query("SELECT * FROM trip_photos WHERE trip_id = :tripId AND photo_url = :photoUrl LIMIT 1;")
     abstract fun getPhoto(tripId: Int, photoUrl: String): PhotoEntity?
 
-    @Query("SELECT * FROM trip_photos WHERE trip_id = :tripId LIMIT 1;")
+    @Query("SELECT * FROM trip_photos WHERE trip_id = :tripId;")
     abstract fun getPhotos(tripId: Int): List<PhotoEntity>
 
     @Update

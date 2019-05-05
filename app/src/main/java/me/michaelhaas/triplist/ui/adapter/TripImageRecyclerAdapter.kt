@@ -18,7 +18,7 @@ class TripImageRecyclerAdapter(
         TripImageViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_detail_image, parent, false))
 
     override fun onBindViewHolder(holder: TripImageViewHolder, position: Int) {
-        items.getOrNull(position)?.resolveInto(holder.imageView)
+        items.getOrNull(position)?.resolveInto(holder.imageView, maxHeight = 800, usePlaceholder = true)
     }
 
     class TripImageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
