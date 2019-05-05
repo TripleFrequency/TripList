@@ -54,6 +54,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/trip_thumbnail_container">
 
+        <FrameLayout
+            android:id="@+id/trip_editor_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/trip_title"
             style="@style/TextAppearance.MaterialComponents.Headline5"
@@ -64,7 +72,7 @@
             android:transitionName="@string/transition_trip_title"
             app:layout_constraintBottom_toTopOf="@id/trip_detail_recycler"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/trip_editor_container"
             tools:text="Test" />
 
         <androidx.recyclerview.widget.RecyclerView

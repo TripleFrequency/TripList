@@ -5,10 +5,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 import dagger.multibindings.IntoMap
-import me.michaelhaas.triplist.ui.AllTripsFragment
-import me.michaelhaas.triplist.ui.MainActivity
-import me.michaelhaas.triplist.ui.TripDetailsActivity
-import me.michaelhaas.triplist.ui.UserTripsFragment
+import me.michaelhaas.triplist.ui.*
 import me.michaelhaas.triplist.ui.vm.AllTripsViewModel
 import me.michaelhaas.triplist.ui.vm.TripDetailsViewModel
 import me.michaelhaas.triplist.ui.vm.UserTripsViewModel
@@ -27,6 +24,9 @@ abstract class ActivityModule {
 
     @ContributesAndroidInjector
     abstract fun contributeToAllTripsFragment(): AllTripsFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeToTripEditorFragment(): TripEditorFragment
 
     @Binds
     @IntoMap

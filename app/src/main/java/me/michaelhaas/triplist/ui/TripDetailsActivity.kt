@@ -16,6 +16,7 @@ import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_details.*
 import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.resolver.ImageResolver
+import me.michaelhaas.triplist.service.db.model.UserTripEntity
 import me.michaelhaas.triplist.ui.util.NightModeUtil
 import me.michaelhaas.triplist.ui.vm.TripDetailsViewModel
 import javax.inject.Inject
@@ -25,6 +26,8 @@ class TripDetailsActivity : AppCompatActivity() {
     private var tripId: Int = 0
     private var userTripId: Int? = null
     private var thumbnailUrl: String? = null
+
+    private var editorFragment: TripEditorFragment? = null
 
     @Inject
     lateinit var nightModeUtil: NightModeUtil
@@ -64,14 +67,10 @@ class TripDetailsActivity : AppCompatActivity() {
         })
 
         userTripId?.let { userTripId ->
-            tripDetailsViewModel.getUserTrip(userTripId).observe(this, Observer {
-                if (it == null) {
-                    trip_fab?.setImageResource(R.drawable.ic_add_black_24dp)
-                } else {
-                    trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
-                }
+            tripDetailsViewModel.getUserTrip(userTripId).observe(this, Observer { userTripEntity ->
+                updateWithTrip(userTripEntity)
             })
-        } ?: trip_fab?.setImageResource(R.drawable.ic_add_black_24dp)
+        } ?: updateWithTrip()
 
         if (thumbnailUrl != null) {
             val thumbnailResolver = ImageResolver(Uri.parse(thumbnailUrl))
@@ -89,6 +88,51 @@ class TripDetailsActivity : AppCompatActivity() {
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
             }
             statusBarColor = Color.TRANSPARENT
+        }
+    }
+
+    override fun onBackPressed() {
+        editorFragment?.let {
+            editorFragment = null
+            onEditorClosed()
+        }
+        super.onBackPressed()
+    }
+
+    fun onEditorClosed(newId: Int? = null) {
+        if (newId != null) {
+            trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
+        }
+        trip_fab?.show()
+    }
+
+    private fun updateWithTrip(userTripEntity: UserTripEntity? = null) {
+        if (userTripEntity == null) {
+            trip_fab?.setImageResource(R.drawable.ic_add_black_24dp)
+        } else {
+            trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
+        }
+
+        trip_fab?.setOnClickListener {
+            val fragment = TripEditorFragment.Builder(
+                userTripEntity?.id,
+                userTripEntity?.startDate,
+                userTripEntity?.endDate
+            ) {
+                trip_fab?.show()
+                if (userTripEntity == null) {
+                    trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
+                }
+            }.build()
+
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.trip_editor_container, fragment)
+                .addToBackStack(TripEditorFragment.BACK_NAVIGATION_TAG)
+                .commit()
+            editorFragment = fragment
+
+            trip_fab?.hide()
         }
     }
 
