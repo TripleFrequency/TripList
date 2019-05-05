@@ -66,11 +66,7 @@ class TripDetailsActivity : AppCompatActivity() {
             trip_title?.text = it.name
         })
 
-        userTripId?.let { userTripId ->
-            tripDetailsViewModel.getUserTrip(userTripId).observe(this, Observer { userTripEntity ->
-                updateWithTrip(userTripEntity)
-            })
-        } ?: updateWithTrip()
+        observeUserTrip()
 
         if (thumbnailUrl != null) {
             val thumbnailResolver = ImageResolver(Uri.parse(thumbnailUrl))
@@ -102,8 +98,17 @@ class TripDetailsActivity : AppCompatActivity() {
     fun onEditorClosed(newId: Int? = null) {
         if (newId != null) {
             trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
+            observeUserTrip()
         }
         trip_fab?.show()
+    }
+
+    private fun observeUserTrip() {
+        userTripId?.let { userTripId ->
+            tripDetailsViewModel.getUserTrip(userTripId).observe(this, Observer { userTripEntity ->
+                updateWithTrip(userTripEntity)
+            })
+        } ?: updateWithTrip()
     }
 
     private fun updateWithTrip(userTripEntity: UserTripEntity? = null) {
@@ -118,12 +123,7 @@ class TripDetailsActivity : AppCompatActivity() {
                 userTripEntity?.id,
                 userTripEntity?.startDate,
                 userTripEntity?.endDate
-            ) {
-                trip_fab?.show()
-                if (userTripEntity == null) {
-                    trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
-                }
-            }.build()
+            ).build()
 
             supportFragmentManager
                 .beginTransaction()

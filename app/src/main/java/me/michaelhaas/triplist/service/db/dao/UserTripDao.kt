@@ -14,7 +14,7 @@ abstract class UserTripDao {
     abstract fun insertTrip(userTripEntity: UserTripEntity)
 
     @Query("SELECT * FROM user_trips WHERE id = :userTripId")
-    abstract fun getUserTrip(userTripId: Int): UserTripEntity
+    abstract fun getUserTrip(userTripId: Int): LiveData<UserTripEntity>
 
     @Query("SELECT * FROM user_trips;")
     abstract fun getUserTrips(): LiveData<List<UserTripEntity>>
