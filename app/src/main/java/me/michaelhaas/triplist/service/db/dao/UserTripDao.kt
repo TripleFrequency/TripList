@@ -1,17 +1,16 @@
 package me.michaelhaas.triplist.service.db.dao
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import me.michaelhaas.triplist.service.db.model.UserTripEntity
+import me.michaelhaas.triplist.service.db.util.RoomDateConverter
+import java.util.*
 
 @Dao
 abstract class UserTripDao {
 
-    @Update
-    abstract fun insertTrip(userTripEntity: UserTripEntity)
+    @Insert
+    abstract fun insertTrip(userTripEntity: UserTripEntity): Long
 
     @Query("SELECT * FROM user_trips WHERE id = :userTripId")
     abstract fun getUserTrip(userTripId: Int): LiveData<UserTripEntity>
@@ -24,6 +23,10 @@ abstract class UserTripDao {
 
     @Update
     abstract fun updateUserTrip(userTripEntity: UserTripEntity)
+
+    @Query("UPDATE user_trips SET startDate = :startDate, endDate = :endDate WHERE id = :userTripId;")
+    @TypeConverters(RoomDateConverter::class)
+    abstract fun updateUserTrip(userTripId: Int, startDate: Date, endDate: Date)
 
     @Delete
     abstract fun deleteUserTrip(userTripEntity: UserTripEntity)

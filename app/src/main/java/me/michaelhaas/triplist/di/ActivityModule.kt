@@ -8,6 +8,7 @@ import dagger.multibindings.IntoMap
 import me.michaelhaas.triplist.ui.*
 import me.michaelhaas.triplist.ui.vm.AllTripsViewModel
 import me.michaelhaas.triplist.ui.vm.TripDetailsViewModel
+import me.michaelhaas.triplist.ui.vm.TripEditorViewModel
 import me.michaelhaas.triplist.ui.vm.UserTripsViewModel
 
 @Module
@@ -42,4 +43,9 @@ abstract class ActivityModule {
     @IntoMap
     @ViewModelKey(TripDetailsViewModel::class)
     internal abstract fun tripDetailsViewModel(viewModel: TripDetailsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TripEditorViewModel::class)
+    internal abstract fun tripEditorViewModel(viewModel: TripEditorViewModel): ViewModel
 }

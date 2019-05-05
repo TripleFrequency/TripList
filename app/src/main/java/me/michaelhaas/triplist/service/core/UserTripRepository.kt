@@ -6,6 +6,7 @@ import kotlinx.coroutines.*
 import me.michaelhaas.triplist.service.core.model.UserTrip
 import me.michaelhaas.triplist.service.db.dao.UserTripDao
 import me.michaelhaas.triplist.service.db.model.UserTripEntity
+import java.util.*
 import javax.inject.Inject
 
 class UserTripRepository @Inject constructor(
@@ -38,10 +39,10 @@ class UserTripRepository @Inject constructor(
 
     fun getUserTripsOfIdAsync(tripId: Int) = scope.async { userTripDao.getUserTripsFor(tripId) }
 
-    fun createUserTripAsync(trip: UserTrip) =
-        scope.async { userTripDao.insertTrip(UserTripEntity(trip.id, trip.trip.id, trip.startDate, trip.endDate)) }
+    fun createUserTripAsync(trip: UserTripEntity) =
+        scope.async { userTripDao.insertTrip(trip) }
 
-    fun updateTrip(trip: UserTripEntity): Job = scope.launch { userTripDao.updateUserTrip(trip) }
+    fun updateTrip(userTripId: Int, startDate: Date, endDate: Date): Job = scope.launch { userTripDao.updateUserTrip(userTripId, startDate, endDate) }
 
     fun deleteTrip(trip: UserTripEntity): Job = scope.launch { userTripDao.deleteUserTrip(trip) }
 }

@@ -9,13 +9,22 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.EditText
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_trip_editor.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.michaelhaas.triplist.R
+import me.michaelhaas.triplist.ui.vm.TripEditorViewModel
 import java.text.DateFormat
 import java.util.*
+import javax.inject.Inject
 
 class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
+
+    private var tripId: Int = 0
 
     private var userTripId: Int? = null
     private var startDate: Date? = null
@@ -23,6 +32,15 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var newStartDate: Date? = null
     private var newEndDate: Date? = null
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private val editorViewModel by lazy {
+        ViewModelProviders.of(
+            this,
+            viewModelFactory
+        )[TripEditorViewModel::class.java]
+    }
 
     override fun onAttach(context: Context?) {
         AndroidSupportInjection.inject(this)
@@ -33,27 +51,58 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         inflater.inflate(R.layout.fragment_trip_editor, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        tripId = arguments?.getInt(ARG_TRIP_ID, 0) ?: 0
         userTripId = arguments?.getInt(ARG_USER_TRIP_ID)?.let { if (it == 0) null else it }
         startDate = arguments?.getLong(ARG_START_DATE)?.let { if (it == 0L) null else it }?.let { Date(it) }
         endDate = arguments?.getLong(ARG_END_DATE)?.let { if (it == 0L) null else it }?.let { Date(it) }
 
-        displayDateIn(startDate, trip_start_date)
-        displayDateIn(endDate, trip_end_date)
+        if (tripId == 0) {
+            throw IllegalStateException("No Trip Id provided to editor fragment")
+        }
 
-        trip_start_date?.setOnClickListener { _ -> showPicker(startDate, ARG_START_DATE) }
-        trip_end_date?.setOnClickListener { _ -> showPicker(endDate, ARG_END_DATE) }
+        displayDateIn(startDate, trip_start_date)
+        newStartDate = startDate
+        displayDateIn(endDate, trip_end_date)
+        newEndDate = endDate
+
+        trip_start_date?.setOnClickListener { editText ->
+            editText.isClickable = false
+            showPicker(startDate, ARG_START_DATE)
+        }
+        trip_end_date?.setOnClickListener { editText ->
+            editText.isClickable = false
+            showPicker(endDate, ARG_END_DATE)
+        }
 
         trip_save_button?.setOnClickListener {
-            if (newStartDate == null || newEndDate == null) {
-                if (newStartDate == null) {
+            val nStartDate = newStartDate
+            val nEndDate = newEndDate
+            if (nStartDate == null || nEndDate == null) {
+                if (nStartDate == null) {
                     trip_start_date?.error = ""
                 }
-                if (newEndDate == null) {
+                if (nEndDate == null) {
                     trip_end_date?.error = ""
                 }
+            } else if (nEndDate.before(nStartDate)) {
+                trip_start_date?.error = getString(R.string.error_trip_end_before_start)
+                trip_end_date?.error = getString(R.string.error_trip_start_after_end)
             } else {
-                (activity as? TripDetailsActivity?)?.onEditorClosed(if (userTripId == null) 0 else null)
-                fragmentManager?.popBackStack()
+                editorViewModel.launch {
+                    trip_save_button?.isEnabled = false
+                    var newId: Int? = null
+                    withContext(Dispatchers.IO) {
+                        val uTripId = userTripId
+                        if (uTripId != null) {
+                            editorViewModel.updateUserTrip(uTripId, nStartDate, nEndDate)
+                        } else {
+                            val inserted = editorViewModel.insertUserTrip(tripId, nStartDate, nEndDate).toInt()
+                            newId = inserted
+                        }
+                    }
+                    (activity as? TripDetailsActivity?)?.onEditorClosed(newId)
+                    fragmentManager?.popBackStack()
+                }
             }
         }
     }
@@ -64,10 +113,12 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         val dateString = DateFormat.getDateInstance(DateFormat.MEDIUM).format(calendar.time)
         if (view?.tag == ARG_START_DATE) {
             newStartDate = calendar.time
+            trip_start_date?.isClickable = true
             trip_start_date?.error = null
             trip_start_date?.setText(dateString)
         } else {
             newEndDate = calendar.time
+            trip_end_date?.isClickable = true
             trip_end_date?.error = null
             trip_end_date?.setText(dateString)
         }
@@ -96,13 +147,15 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     class Builder(
+        var tripId: Int,
         var userTripId: Int? = null,
         var tripStart: Date? = null,
         var tripEnd: Date? = null
     ) {
         fun build() = TripEditorFragment().apply {
             arguments = Bundle().also { bundle ->
-                userTripId?.let { bundle.putInt(ARG_USER_TRIP_ID, it) }
+                bundle.putInt(ARG_TRIP_ID, this@Builder.tripId)
+                this@Builder.userTripId?.let { bundle.putInt(ARG_USER_TRIP_ID, it) }
                 tripStart?.let { bundle.putLong(ARG_START_DATE, it.time) }
                 tripEnd?.let { bundle.putLong(ARG_END_DATE, it.time) }
             }
@@ -110,6 +163,7 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     companion object {
+        private const val ARG_TRIP_ID = "tripId"
         private const val ARG_USER_TRIP_ID = "userTripId"
         private const val ARG_START_DATE = "startDate"
         private const val ARG_END_DATE = "endDate"

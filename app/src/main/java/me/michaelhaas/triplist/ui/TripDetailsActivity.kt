@@ -6,9 +6,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -97,14 +99,19 @@ class TripDetailsActivity : AppCompatActivity() {
 
     fun onEditorClosed(newId: Int? = null) {
         if (newId != null) {
+            userTripId = newId
             trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
-            observeUserTrip()
         }
+        observeUserTrip()
         trip_fab?.show()
+        if (!trip_sub_line?.text.isNullOrEmpty()) {
+            trip_sub_line?.visibility = View.VISIBLE
+        }
     }
 
     private fun observeUserTrip() {
         userTripId?.let { userTripId ->
+            trip_sub_line?.visibility = View.VISIBLE
             tripDetailsViewModel.getUserTrip(userTripId).observe(this, Observer { userTripEntity ->
                 updateWithTrip(userTripEntity)
             })
@@ -115,11 +122,13 @@ class TripDetailsActivity : AppCompatActivity() {
         if (userTripEntity == null) {
             trip_fab?.setImageResource(R.drawable.ic_add_black_24dp)
         } else {
+            trip_sub_line?.text = DateUtils.formatDateRange(this, userTripEntity.startDate.time, userTripEntity.endDate.time, DateUtils.FORMAT_ABBREV_RELATIVE)
             trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
         }
 
         trip_fab?.setOnClickListener {
             val fragment = TripEditorFragment.Builder(
+                tripId,
                 userTripEntity?.id,
                 userTripEntity?.startDate,
                 userTripEntity?.endDate
@@ -132,6 +141,7 @@ class TripDetailsActivity : AppCompatActivity() {
                 .commit()
             editorFragment = fragment
 
+            trip_sub_line?.visibility = View.GONE
             trip_fab?.hide()
         }
     }
@@ -141,7 +151,7 @@ class TripDetailsActivity : AppCompatActivity() {
         var userTripId: Int? = null,
         var transitionThumbnailUrl: String? = null,
         var doImageTransition: Boolean = false,
-        vararg val sharedComponents: androidx.core.util.Pair<View, String>
+        vararg var sharedComponents: androidx.core.util.Pair<View, String>
     ) {
         fun buildIntent(context: Context): Pair<Intent, Bundle?> {
             val intent = Intent(context, TripDetailsActivity::class.java).apply {
