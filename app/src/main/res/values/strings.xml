@@ -6,4 +6,6 @@
     <string name="label_all_trips">All Trips</string>
     <string name="label_no_trips_available">No Trips Available</string>
     <string name="transition_trip_image">detail_image</string>
+    <string name="transition_trip_gradient">trip_gradient</string>
+    <string name="transition_trip_title">trip_title</string>
 </resources>

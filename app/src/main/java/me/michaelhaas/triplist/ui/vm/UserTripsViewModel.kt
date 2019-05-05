@@ -16,4 +16,9 @@ class UserTripsViewModel @Inject constructor(
     override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
     val userTripLiveData = userTripRepo.userTrips
+
+    override fun onCleared() {
+        super.onCleared()
+        job.cancel()
+    }
 }

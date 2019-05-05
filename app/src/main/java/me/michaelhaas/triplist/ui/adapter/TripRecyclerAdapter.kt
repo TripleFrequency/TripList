@@ -53,6 +53,7 @@ class TripRecyclerAdapter<T : Any>(
         protected val clickListener: ((Trip, Array<Pair<View, String>>) -> Unit)?
     ) : RecyclerView.ViewHolder(view) {
 
+        protected val gradientView: ImageView = view.findViewById(R.id.text_gradient)
         protected val containerView: View = view.findViewById(R.id.trip_container)
         protected val thumbnailView: ImageView = view.findViewById(R.id.trip_thumbnail)
         protected val titleView: TextView = view.findViewById(R.id.trip_title)
@@ -89,10 +90,20 @@ class TripRecyclerAdapter<T : Any>(
         ) : TripViewHolder<Trip>(view, clickListener) {
             override fun bind(item: Trip) {
                 containerView.setOnClickListener {
-                    it?.context?.resources?.getString(R.string.transition_trip_image)?.let { imageTransitionName ->
+                    val resources = it?.context?.resources
+
+                    val imageTransitionName = resources?.getString(R.string.transition_trip_image)
+                    val gradientTransitionName = resources?.getString(R.string.transition_trip_gradient)
+                    val titleTransitionName = resources?.getString(R.string.transition_trip_title)
+
+                    if (imageTransitionName != null && gradientTransitionName != null && titleTransitionName != null) {
                         clickListener?.invoke(
                             item,
-                            arrayOf<Pair<View, String>>(Pair(thumbnailView, imageTransitionName))
+                            arrayOf<Pair<View, String>>(
+                                Pair(thumbnailView, imageTransitionName),
+                                Pair(gradientView, gradientTransitionName),
+                                Pair(titleView, titleTransitionName)
+                            )
                         )
                     }
                 }

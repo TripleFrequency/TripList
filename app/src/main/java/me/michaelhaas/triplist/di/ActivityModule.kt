@@ -10,6 +10,7 @@ import me.michaelhaas.triplist.ui.MainActivity
 import me.michaelhaas.triplist.ui.TripDetailsActivity
 import me.michaelhaas.triplist.ui.UserTripsFragment
 import me.michaelhaas.triplist.ui.vm.AllTripsViewModel
+import me.michaelhaas.triplist.ui.vm.TripDetailsViewModel
 import me.michaelhaas.triplist.ui.vm.UserTripsViewModel
 
 @Module
@@ -36,4 +37,9 @@ abstract class ActivityModule {
     @IntoMap
     @ViewModelKey(AllTripsViewModel::class)
     internal abstract fun allTripsViewModel(viewModel: AllTripsViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TripDetailsViewModel::class)
+    internal abstract fun tripDetailsViewModel(viewModel: TripDetailsViewModel): ViewModel
 }
