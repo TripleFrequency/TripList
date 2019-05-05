@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">TripList</string>
-    <string name="label_trip_none_planned">You have no trips planned</string>
-    <string name="button_all_trips">View All Trips</string>
+    <string name="label_trip_none_planned">You have no planned trips</string>
+    <string name="button_all_trips">Discover Trips</string>
     <string name="label_your_trips">Your Trips</string>
     <string name="label_all_trips">All Trips</string>
     <string name="label_no_trips_available">No Trips Available</string>
