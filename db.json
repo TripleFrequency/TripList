@@ -37,8 +37,9 @@
       "location": "Arizona",
       "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
       "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
+        "https://i.imgur.com/BuD9jia.jpg",
+        "https://i.imgur.com/9ux1vvM.jpg",
+        "https://i.imgur.com/qxwuvGq.jpg"
       ],
       "activities": [
         {
@@ -50,111 +51,146 @@
           "name": "Bright Angel Trail",
           "type": "",
           "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
+        },
+        {
+          "name": "Havasu Falls",
+          "type": "",
+          "description": "A waterfall of Havasu Creek. It is 98' tall."
         }
       ]
     },
     {
       "id": 2,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
+      "location": "California",
+      "description": "Iconic national park offers an array of options such as hiking among redwoods & river rafting.",
       "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
+        "https://i.imgur.com/tcDMft1.jpg",
+        "https://i.imgur.com/aox7xPE.jpg",
+        "https://i.imgur.com/NSwBlBG.jpg"
       ],
       "activities": [
         {
-          "name": "Grand Canyon Village",
+          "name": "Half Dome",
           "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
+          "description": "Half Dome is a granite dome at the eastern end of Yosemite Valley in Yosemite National Park, California. It is a well-known rock formation in the park, named for its distinct shape. One side is a sheer face while the other three sides are smooth and round, making it appear like a dome cut in half."
         },
         {
-          "name": "Bright Angel Trail",
+          "name": "Yosemite Falls",
           "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
+          "description": "Yosemite Falls is the highest waterfall in Yosemite National Park, dropping a total of 2,425 feet from the top of the upper fall to the base of the lower fall. Located in the Sierra Nevada of California, it is a major attraction in the park, especially in late spring when the water flow is at its peak."
+        },
+        {
+          "name": "Yosemite Valley",
+          "type": "",
+          "description": "Yosemite Valley is a glacial valley in Yosemite National Park in the western Sierra Nevada mountains of Central California. The valley is about 7.5 miles long and approximately 3000–3500 feet deep, surrounded by high granite summits such as Half Dome and El Capitan, and densely forested with pines."
         }
       ]
     },
     {
       "id": 3,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
+      "location": "Wyoming",
+      "description": "Renowned park since 1872 is home to mountains, animals & the world's largest collection of geysers.",
       "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
+        "https://i.imgur.com/UjBdCKt.jpg",
+        "https://i.imgur.com/YKqQXXs.jpg",
+        "https://i.imgur.com/7xSDI.jpg"
       ],
       "activities": [
         {
-          "name": "Grand Canyon Village",
+          "name": "Old Faithful",
           "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
+          "description": "Old Faithful is a cone geyser located in Yellowstone National Park in Wyoming, United States. It was named in 1870 during the Washburn-Langford-Doane Expedition and was the first geyser in the park to receive a name. It is a highly predictable geothermal feature, and has erupted every 44 to 125 minutes since 2000."
         },
         {
-          "name": "Bright Angel Trail",
+          "name": "Grand Prismatic Spring",
           "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
+          "description": "The Grand Prismatic Spring in Yellowstone National Park is the largest hot spring in the United States, and the third largest in the world, after Frying Pan Lake in New Zealand and Boiling Lake in Dominica. It is located in the Midway Geyser Basin."
+        },
+        {
+          "name": "Yellowstone Caldera",
+          "type": "",
+          "description": "The Yellowstone Caldera is a volcanic caldera and supervolcano in Yellowstone National Park in the Western United States, sometimes referred to as the Yellowstone Supervolcano. The caldera and most of the park are located in the northwest corner of Wyoming."
         }
       ]
     },
     {
       "id": 4,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
+      "location": "Montana",
+      "description": "More than 700 miles of trails in a vast park with diverse landscapes & abundant wildlife.",
       "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
+        "https://i.imgur.com/kmjyIOX.jpg",
+        "https://i.imgur.com/dwwmdQP.jpg",
+        "https://i.imgur.com/wEfoHxU.jpg"
       ],
       "activities": [
         {
-          "name": "Grand Canyon Village",
+          "name": "Going-to-the-Sun Road",
           "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
+          "description": "Going-to-the-Sun Road is a scenic mountain road in the Rocky Mountains of the western United States, in Glacier National Park in Montana."
         },
         {
-          "name": "Bright Angel Trail",
+          "name": "Lake McDonald",
           "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
+          "description": "Lake McDonald is the largest lake in Glacier National Park. It is located at 48°35′N 113°55′W in Flathead County in the U.S. state of Montana. Lake McDonald is approximately 10 miles long, and over a mile wide and 472 feet deep, filling a valley formed by a combination of erosion and glacial activity."
+        },
+        {
+          "name": "Logan Pass",
+          "type": "",
+          "description": "Logan Pass is located along the Continental Divide in Glacier National Park, in the U.S. state of Montana. It is the highest point on the Going-to-the-Sun Road. The pass is named after Major Willian R. Logan, the first superintendent of the park."
         }
       ]
     },
     {
       "id": 5,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
+      "location": "Utah",
+      "description": "Home to Zion Canyon, this vast national park offers trails, climbing, camping & more.",
       "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
+        "https://i.imgur.com/xWFuIfh.jpg",
+        "https://i.imgur.com/cLMehLM.jpg",
+        "https://i.imgur.com/L3jyZ4F.jpg"
       ],
       "activities": [
         {
-          "name": "Grand Canyon Village",
+          "name": "The Narrows",
           "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
+          "description": "The Narrows is the narrowest section of Zion Canyon in Zion National Park, Utah. Situated on the North Fork of the Virgin River and upstream of the main canyon, The Narrows is one of the premier hikes in the park and on the Colorado Plateau."
         },
         {
-          "name": "Bright Angel Trail",
+          "name": "Angels Landing",
           "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
+          "description": "Angels Landing, known previously as the Temple of Aeolus, is a 1,488-foot tall rock formation in Zion National Park in southwestern Utah in the United States. A trail cut into solid rock in 1926 leads to the top of Angels Landing and provides views of Zion Canyon."
+        },
+        {
+          "name": "Kolob Canyons",
+          "type": "",
+          "description": "Kolob Canyons is the northwest section of Zion National Park of Utah, United States. The Kolob Canyons are part of the Colorado Plateau region of the park and are noted for their colorful beauty and diverse landscape."
         }
       ]
     },
     {
       "id": 6,
-      "location": "Arizona",
-      "description": "Beyond its scenic overlooks, this mile-deep geologic wonder features hikes, mule rides & rafting.",
+      "location": "Colorado",
+      "description": "Over 415 square miles of protected mountain terrain with a huge network of hiking trails & wildlife.",
       "photoUrls": [
-        "https://i.imgur.com/sdR7chK.jpg",
-        "https://i.imgur.com/sdR7chK.jpg"
+        "https://i.imgur.com/wlF5XgV.jpg",
+        "https://i.imgur.com/ssgCi5N.jpg",
+        "https://i.imgur.com/mt86Ig6.jpg"
       ],
       "activities": [
         {
-          "name": "Grand Canyon Village",
+          "name": "Longs Peak",
           "type": "",
-          "description": "A census-designated place located on the South Rim. It is wholly focused on accommodating tourists visiting the canyon."
+          "description": "Longs Peak is a high and prominent mountain summit in the northern Front Range of the Rocky Mountains of North America. The 14,259-foot fourteener is located in the Rocky Mountain National Park Wilderness, 9.6 miles southwest by south of the Town of Estes Park, Colorado, United States."
         },
         {
-          "name": "Bright Angel Trail",
+          "name": "Bear Lake",
           "type": "",
-          "description": "A trail located on the South Rim of The Grand Canyon. It is 8 miles long, and changes elevation by 4,380 ft."
+          "description": "Bear Lake is a scenic trailhead and destination in Rocky Mountain National Park. Sitting at an elevation of 9,450 feet, the alpine lake rests beneath the sheer flanks of Hallett Peak and the Continental Divide at 40.31324°N 105.648222°W. Several trails, from easy strolls to strenuous hikes, start from the lake."
+        },
+        {
+          "name": "Dream Lake",
+          "type": "",
+          "description": "Dream Lake is a high alpine lake located in Rocky Mountain National Park in northern Colorado, located east of the continental divide."
         }
       ]
     }
