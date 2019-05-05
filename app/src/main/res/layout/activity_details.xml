@@ -69,9 +69,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="96dp"
             android:gravity="start"
             android:transitionName="@string/transition_trip_title"
             app:layout_constraintBottom_toTopOf="@id/trip_sub_line"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/trip_editor_container"
             tools:text="Test" />
@@ -85,20 +87,32 @@
             android:gravity="start"
             android:transitionName="@string/transition_trip_sub_line"
             android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@id/trip_detail_recycler"
+            app:layout_constraintBottom_toTopOf="@id/trip_description"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/trip_title"
             tools:text="Test" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/trip_description"
+            style="@style/TextAppearance.MaterialComponents.Body2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintBottom_toTopOf="@id/trip_detail_recycler"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/trip_sub_line" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/trip_detail_recycler"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/trip_sub_line" />
+            app:layout_constraintTop_toBottomOf="@id/trip_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

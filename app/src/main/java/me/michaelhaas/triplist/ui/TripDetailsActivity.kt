@@ -13,11 +13,17 @@ import androidx.core.app.ActivityOptionsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import dagger.android.AndroidInjection
 import kotlinx.android.synthetic.main.activity_details.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.resolver.ImageResolver
 import me.michaelhaas.triplist.service.db.model.UserTripEntity
+import me.michaelhaas.triplist.ui.adapter.TripDetailRecyclerAdapter
 import me.michaelhaas.triplist.ui.util.NightModeUtil
 import me.michaelhaas.triplist.ui.vm.TripDetailsViewModel
 import javax.inject.Inject
@@ -65,6 +71,15 @@ class TripDetailsActivity : AppCompatActivity() {
 
         tripDetailsViewModel.getTrip(tripId).observe(this, Observer {
             trip_title?.text = it.name
+
+            trip_detail_recycler?.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+            tripDetailsViewModel.launch {
+                val details = withContext(Dispatchers.IO) { it.getTripDetails() }
+                details?.let { tripDetails ->
+                    trip_description?.text = tripDetails.description
+                    trip_detail_recycler?.adapter = TripDetailRecyclerAdapter(tripDetails)
+                }
+            }
         })
 
         observeUserTrip()
@@ -121,7 +136,12 @@ class TripDetailsActivity : AppCompatActivity() {
         if (userTripEntity == null) {
             trip_fab?.setImageResource(R.drawable.ic_add_white_24dp)
         } else {
-            trip_sub_line?.text = DateUtils.formatDateRange(this, userTripEntity.startDate.time, userTripEntity.endDate.time, DateUtils.FORMAT_ABBREV_RELATIVE)
+            trip_sub_line?.text = DateUtils.formatDateRange(
+                this,
+                userTripEntity.startDate.time,
+                userTripEntity.endDate.time,
+                DateUtils.FORMAT_ABBREV_RELATIVE
+            )
             trip_fab?.setImageResource(R.drawable.ic_edit_white_24dp)
         }
 
