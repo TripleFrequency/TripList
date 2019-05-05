@@ -10,4 +10,8 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="DeleteButton" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@android:color/holo_red_dark</item>
+    </style>
+
 </resources>

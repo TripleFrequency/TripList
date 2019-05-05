@@ -22,17 +22,12 @@ class UserTripRepository @Inject constructor(
 
     init {
         userTripDao.getUserTrips().observeForever {
-            scope.launch {
-                mutableUserTrips.postValue(it.map { userTripEntity ->
-                    UserTrip(
-                        userTripEntity.id,
-                        tripRepository.getTrip(userTripEntity.tripId),
-                        userTripEntity.startDate,
-                        userTripEntity.endDate
-                    )
-                })
-            }
+            mapTrips(it)
         }
+    }
+
+    fun refreshLiveData() = scope.launch {
+        mapTrips(userTripDao.getUserTripsBlocking())
     }
 
     fun getUserTrip(userTripId: Int) = userTripDao.getUserTrip(userTripId)
@@ -40,9 +35,30 @@ class UserTripRepository @Inject constructor(
     fun getUserTripsOfIdAsync(tripId: Int) = scope.async { userTripDao.getUserTripsFor(tripId) }
 
     fun createUserTripAsync(trip: UserTripEntity) =
-        scope.async { userTripDao.insertTrip(trip) }
+        scope.async {
+            userTripDao.insertTrip(trip).also {
+                refreshLiveData().join()
+            }
+        }
 
-    fun updateTrip(userTripId: Int, startDate: Date, endDate: Date): Job = scope.launch { userTripDao.updateUserTrip(userTripId, startDate, endDate) }
+    fun updateTrip(userTripId: Int, startDate: Date, endDate: Date): Job =
+        scope.launch {
+            userTripDao.updateUserTrip(userTripId, startDate, endDate)
+            refreshLiveData().join()
+        }
 
-    fun deleteTrip(trip: UserTripEntity): Job = scope.launch { userTripDao.deleteUserTrip(trip) }
+    fun deleteTrip(userTripId: Int): Job = scope.launch { userTripDao.deleteUserTrip(userTripId) }
+
+    private fun mapTrips(it: List<UserTripEntity>) {
+        scope.launch {
+            mutableUserTrips.postValue(it.map { userTripEntity ->
+                UserTrip(
+                    userTripEntity.id,
+                    tripRepository.getTrip(userTripEntity.tripId),
+                    userTripEntity.startDate,
+                    userTripEntity.endDate
+                )
+            })
+        }
+    }
 }

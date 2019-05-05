@@ -10,7 +10,6 @@ import android.text.format.DateUtils
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityOptionsCompat
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -100,7 +99,7 @@ class TripDetailsActivity : AppCompatActivity() {
     fun onEditorClosed(newId: Int? = null) {
         if (newId != null) {
             userTripId = newId
-            trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
+            trip_fab?.setImageResource(R.drawable.ic_edit_white_24dp)
         }
         observeUserTrip()
         trip_fab?.show()
@@ -120,10 +119,10 @@ class TripDetailsActivity : AppCompatActivity() {
 
     private fun updateWithTrip(userTripEntity: UserTripEntity? = null) {
         if (userTripEntity == null) {
-            trip_fab?.setImageResource(R.drawable.ic_add_black_24dp)
+            trip_fab?.setImageResource(R.drawable.ic_add_white_24dp)
         } else {
             trip_sub_line?.text = DateUtils.formatDateRange(this, userTripEntity.startDate.time, userTripEntity.endDate.time, DateUtils.FORMAT_ABBREV_RELATIVE)
-            trip_fab?.setImageResource(R.drawable.ic_edit_black_24dp)
+            trip_fab?.setImageResource(R.drawable.ic_edit_white_24dp)
         }
 
         trip_fab?.setOnClickListener {

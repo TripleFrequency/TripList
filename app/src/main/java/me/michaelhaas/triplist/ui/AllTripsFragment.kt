@@ -43,7 +43,7 @@ class AllTripsFragment : DaggerFragment(), SwipeRefreshLayout.OnRefreshListener 
     ): View? = inflater.inflate(R.layout.fragment_trips, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        no_trips_icon?.setBackgroundResource(R.drawable.ic_error_outline_black_24dp)
+        no_trips_icon?.setBackgroundResource(R.drawable.ic_error_outline_24dp)
 
         no_trips_text?.text = getString(R.string.label_no_trips_available)
 

@@ -4,8 +4,7 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.core.util.Pair
 import androidx.recyclerview.widget.RecyclerView
 import me.michaelhaas.triplist.R
@@ -94,6 +93,10 @@ class TripRecyclerAdapter<T : Any>(
 
             private fun formatDates(startDate: Date, endDate: Date) = view.context?.let {
                 DateUtils.formatDateRange(it, startDate.time, endDate.time, DateUtils.FORMAT_ABBREV_RELATIVE)
+            }
+
+            companion object {
+                private const val SPINNER_POSITION_DELETE = 0
             }
         }
 

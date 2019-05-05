@@ -9,13 +9,17 @@ import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
 class UserTripsViewModel @Inject constructor(
-    userTripRepo: UserTripRepository
+    private val userTripRepo: UserTripRepository
 ) : ViewModel(), CoroutineScope {
 
     private val job = SupervisorJob()
     override val coroutineContext: CoroutineContext = Dispatchers.Main + job
 
     val userTripLiveData = userTripRepo.userTrips
+
+    fun refresh() = userTripRepo.refreshLiveData()
+
+    fun deleteTrip(userTripId: Int) = userTripRepo.deleteTrip(userTripId)
 
     override fun onCleared() {
         super.onCleared()

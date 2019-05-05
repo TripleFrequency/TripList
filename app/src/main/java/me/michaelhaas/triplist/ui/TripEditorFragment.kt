@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -72,6 +73,27 @@ class TripEditorFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         trip_end_date?.setOnClickListener { editText ->
             editText.isClickable = false
             showPicker(endDate, ARG_END_DATE)
+        }
+
+        if (userTripId != null) {
+            trip_delete_button?.visibility = View.VISIBLE
+        }
+
+        trip_delete_button?.setOnClickListener { buttonView ->
+            userTripId?.let {
+                AlertDialog.Builder(buttonView.context)
+                    .setTitle(R.string.dialog_delete_title)
+                    .setMessage(R.string.dialog_delete_message)
+                    .setIcon(R.drawable.ic_delete_forever_24dp)
+                    .setPositiveButton(R.string.dialog_delete_title) { dialog, _ ->
+                        editorViewModel.deleteUserTrip(it)
+                        dialog.dismiss()
+                        activity?.supportFinishAfterTransition()
+                    }
+                    .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+                        dialog.dismiss()
+                    }.show()
+            }
         }
 
         trip_save_button?.setOnClickListener {

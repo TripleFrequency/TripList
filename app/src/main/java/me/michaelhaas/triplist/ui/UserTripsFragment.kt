@@ -18,7 +18,6 @@ import me.michaelhaas.triplist.R
 import me.michaelhaas.triplist.service.core.model.UserTrip
 import me.michaelhaas.triplist.ui.adapter.TripRecyclerAdapter
 import me.michaelhaas.triplist.ui.vm.UserTripsViewModel
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class UserTripsFragment : DaggerFragment(), SwipeRefreshLayout.OnRefreshListener {
@@ -45,7 +44,7 @@ class UserTripsFragment : DaggerFragment(), SwipeRefreshLayout.OnRefreshListener
     ): View? = inflater.inflate(R.layout.fragment_trips, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        no_trips_icon?.setBackgroundResource(R.drawable.ic_card_travel_black_24dp)
+        no_trips_icon?.setBackgroundResource(R.drawable.ic_card_travel_24dp)
 
         no_trips_text?.text = getString(R.string.label_trip_none_planned)
 
@@ -70,11 +69,14 @@ class UserTripsFragment : DaggerFragment(), SwipeRefreshLayout.OnRefreshListener
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        userTripsViewModel.refresh()
+    }
+
     override fun onRefresh() {
         userTripsViewModel.launch {
-            // "Your Trips" is entirely reactive, so there isn't a way to "refresh" per-se.
-            // As a result, visual feedback is provided, even though it does nothing.
-            delay(100)
+            userTripsViewModel.refresh().join()
             refresh_trip?.isRefreshing = false
         }
     }

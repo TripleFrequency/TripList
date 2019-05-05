@@ -18,6 +18,9 @@ abstract class UserTripDao {
     @Query("SELECT * FROM user_trips;")
     abstract fun getUserTrips(): LiveData<List<UserTripEntity>>
 
+    @Query("SELECT * FROM user_trips;")
+    abstract fun getUserTripsBlocking(): List<UserTripEntity>
+
     @Query("SELECT * FROM user_trips WHERE trip_id = :tripId")
     abstract fun getUserTripsFor(tripId: Int): List<UserTripEntity>
 
@@ -28,6 +31,6 @@ abstract class UserTripDao {
     @TypeConverters(RoomDateConverter::class)
     abstract fun updateUserTrip(userTripId: Int, startDate: Date, endDate: Date)
 
-    @Delete
-    abstract fun deleteUserTrip(userTripEntity: UserTripEntity)
+    @Query("DELETE FROM user_trips WHERE id = :userTripId")
+    abstract fun deleteUserTrip(userTripId: Int)
 }

@@ -23,6 +23,8 @@ class TripEditorViewModel @Inject constructor(
     suspend fun updateUserTrip(userTripId: Int, startDate: Date, endDate: Date) =
         userTripRepo.updateTrip(userTripId, startDate, endDate).join()
 
+    fun deleteUserTrip(userTripId: Int) = userTripRepo.deleteTrip(userTripId)
+
     override fun onCleared() {
         super.onCleared()
         job.cancel()
